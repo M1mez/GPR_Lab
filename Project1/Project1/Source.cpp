@@ -2,8 +2,6 @@
 #include <iostream>
 using namespace std;
 
-//TEST LUL LOL LUL
-
 void ReadFile(int& width, int& height, string& labyrinth);
 void CreateBlackedMap(int& width, int& height, string& blackedMap);
 void getentry(int& entry, int& width, string& labyrinth);

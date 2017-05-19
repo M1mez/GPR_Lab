@@ -24,6 +24,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Labyrinth.h" />
+    <ClInclude Include="resource1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Project11.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CEEFB949-5551-4AC5-A55C-3CA214E61EC7}</ProjectGuid>
