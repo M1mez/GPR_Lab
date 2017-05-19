@@ -59,10 +59,10 @@ int Labyrinth::GetEntryPoint(int& width, int& height, string & labyrinth)
 	{
 		cout << entry << " ";
 		if (width+1 == entry) return -1;
-		cout << labyrinth[entry];
+		cout << labyrinth[entry-1];
 		if (labyrinth[entry] == ' ') return entry;
 		system("pause");
-		if ((entry - width < 0) && (entry + 1 != width))
+		if ((entry - (width) < 0) && (entry + 1 != width))
 		{
 			entry++;
 			continue;
