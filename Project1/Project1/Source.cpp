@@ -1,7 +1,8 @@
 ﻿#include "Labyrinth.h"
 #include <iostream>
-//ésugheisghiegh
 using namespace std;
+
+//TEST LUL LOL LUL
 
 void ReadFile(int& width, int& height, string& labyrinth);
 void CreateBlackedMap(int& width, int& height, string& blackedMap);
