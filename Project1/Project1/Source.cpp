@@ -9,7 +9,7 @@ void PrintLab(string& lab);
 
 
 int main() {
-	string labyrinth = "";
+	string labString = "";
 
 	//blacked version of labyrinth
 	string blackedMap = "";
@@ -20,9 +20,9 @@ int main() {
 
 	labyrinth lab;
 
-	l.ReadFile(width, height, labyrinth);
-	PrintLab(labyrinth);
-	CreateBlackedMap(width, height, blackedMap);
+	lab.ReadFile(width, height, labString);
+	PrintLab(labString);
+	lab.CreateBlackedMap(width, height, blackedMap);
 	PrintLab(blackedMap);
 	width++;
 	blackedMap[2 + (0 * width)] = ' ';
@@ -31,7 +31,7 @@ int main() {
 	blackedMap[3 + (2 * width)] = ' ';
 	blackedMap[4 + (2 * width)] = ' ';
 	blackedMap[4 + (3 * width)] = ' ';
-	getentry(entry, width, labyrinth);
+	lab.getentry(entry, width, labString);
 	PrintLab(blackedMap);
 
 	system("PAUSE");
