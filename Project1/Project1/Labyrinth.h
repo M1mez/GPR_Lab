@@ -1,34 +1,20 @@
 #pragma once
-
-#include <iostream>
 #include <string>
-#include <vector>
+#include <iostream>
 #include <fstream>
 
-using namespace std;
-
-struct Memory {
-	Memory* right;
-	Memory* straight;
-	Memory* left;
-};
-
-class Robot {
+class labyrinth
+{
 public:
-	Robot(string& revealed, string& black);
-	virtual ~Robot();
+	labyrinth();
+	~labyrinth();
 
-protected:
-	int startingPoint;
-	string labyrinth;
-	string blackMap;
+	void ReadFile(int& width, int& height, std::string& labyrinth);
+	void CreateBlackedMap(int& width, int& height, std::string& blackedMap);
+	void getentry(int& entry, int& width, std::string& labyrinth);
+
+
+
+
 };
 
-class LeftHandAlg : public Robot {
-public:
-	LeftHandAlg(string& revealed, string& black);
-	virtual ~LeftHandAlg();
-
-private:
-	Memory* robot_Lefty;
-};
