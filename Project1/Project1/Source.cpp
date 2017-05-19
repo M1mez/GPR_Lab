@@ -1,7 +1,6 @@
 ﻿#include "Labyrinth.h"
 #include <iostream>
 //ésugheisghiegh
-// LOL
 using namespace std;
 
 void ReadFile(int& width, int& height, string& labyrinth);
