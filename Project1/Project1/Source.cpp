@@ -3,27 +3,31 @@
 #include <iostream>
 using namespace std;
 
-
-
-void PrintLab(string& lab);
-
-
 int main() {
+	//	string of original labyrinth
 	string labString = "";
 
-	//blacked version of labyrinth
+	//	blacked version of labyrinth
 	string blackedMap = "";
 
 	int width, height;
 	width = height = 0;
 	int entry, exit;
 
-	labyrinth lab;
+	Labyrinth lab;
 
+	//	reads labyrinth from .txt file, saved in labString
 	lab.ReadFile(width, height, labString);
-	PrintLab(labString);
+	lab.PrintLab(labString);
+
+	//	creates blacked version of same dimensions as labString, saved in blackedMap 	
 	lab.CreateBlackedMap(width, height, blackedMap);
-	PrintLab(blackedMap);
+	lab.PrintLab(blackedMap);
+
+	//	gets entryPoint of labString
+	entry = lab.GetEntryPoint(width, labString);
+
+
 	width++;
 	blackedMap[2 + (0 * width)] = ' ';
 	blackedMap[2 + (1 * width)] = ' ';
@@ -31,10 +35,9 @@ int main() {
 	blackedMap[3 + (2 * width)] = ' ';
 	blackedMap[4 + (2 * width)] = ' ';
 	blackedMap[4 + (3 * width)] = ' ';
-	lab.getentry(entry, width, labString);
-	PrintLab(blackedMap);
+
+
+	lab.PrintLab(blackedMap);
 
 	system("PAUSE");
 }
-
-

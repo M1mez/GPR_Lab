@@ -1,42 +1,42 @@
 #include "labyrinth.h"
 
-using namespace std;
-
-labyrinth::labyrinth()
+Labyrinth::Labyrinth()
 {
 }
 
 
-labyrinth::~labyrinth()
+Labyrinth::~Labyrinth()
 {
 }
 
-void ReadFile(int& width, int& height, string& labyrinth) {
+void Labyrinth::ReadFile(int& width, int& height, string& Labyrinth) {
 	string tmp;
 	string path;
 	cout << "Enter path to maze: \n";
-	//ÄNDERN
+
+	/*                               ÄNDERN                        */
 	//cin >> path;
 	ifstream ifs("maze.txt");
+	/*                                                             */
 
-	//read labyrinth into 1d-string-array
+	//read Labyrinth into 1d-string-array
 	if (ifs.good()) {
-		//gets width of labyrinth
+		//gets width of Labyrinth
 		getline(ifs, tmp, '\n');
-		labyrinth += tmp;
-		labyrinth += "\n";
+		Labyrinth += tmp;
+		Labyrinth += "\n";
 		width = tmp.size();
 
 		while (!ifs.eof()) {
 			getline(ifs, tmp, '\n');
 			height++;
-			labyrinth += tmp;
-			labyrinth += "\n";
+			Labyrinth += tmp;
+			Labyrinth += "\n";
 		}
 	}
 }
 
-void CreateBlackedMap(int & width, int & height, string& blackedMap)
+void Labyrinth::CreateBlackedMap(int & width, int & height, string& blackedMap)
 {
 	for (int i = 0; i < height + 1; i++) {
 		for (int k = 0; k < width; k++) {
@@ -46,19 +46,19 @@ void CreateBlackedMap(int & width, int & height, string& blackedMap)
 	}
 }
 
-void getentry(int& entry, int& width, string & labyrinth)
+int Labyrinth::GetEntryPoint(int& width, string & Labyrinth)
 {
+	int entry = 0;
 	for (int i = 0; i < width; i++) {
-		if (labyrinth[i] == ' ') {
+		if (Labyrinth[i] == ' ') {
 			entry = i;
 			break;
 		}
 	}
-	cout << "Entry Point: " << entry;
-	cout << labyrinth[0];
+	return entry;
 }
 
-void PrintLab(string & lab)
+void Labyrinth::PrintLab(string & lab)
 {
 	cout << "\n\n";
 	cout << lab << endl;

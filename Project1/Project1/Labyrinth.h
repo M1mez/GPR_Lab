@@ -3,18 +3,19 @@
 #include <iostream>
 #include <fstream>
 
-class labyrinth
+using namespace std;
+
+class Labyrinth
 {
 public:
-	labyrinth();
-	~labyrinth();
+	Labyrinth();
+	~Labyrinth();
 
-	void ReadFile(int& width, int& height, std::string& labyrinth);
-	void CreateBlackedMap(int& width, int& height, std::string& blackedMap);
-	void getentry(int& entry, int& width, std::string& labyrinth);
+	void ReadFile(int& width, int& height, string& labyrinth);
+	void CreateBlackedMap(int& width, int& height, string& blackedMap);
+	int GetEntryPoint(int& width, string& labyrinth);
+	void PrintLab(string& lab);
 
-
-
-
+	string labString;
 };
 
