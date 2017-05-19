@@ -18,17 +18,16 @@ int main() {
 
 	//	reads labyrinth from .txt file, saved in labString
 	lab.ReadFile(width, height, labString);
-	lab.PrintLab(labString);
+	lab.PrintLab(width, height, labString);
 
 	//	creates blacked version of same dimensions as labString, saved in blackedMap 	
 	lab.CreateBlackedMap(width, height, blackedMap);
-	lab.PrintLab(blackedMap);
+	lab.PrintLab(width, height, blackedMap);
 
 	//	gets entryPoint of labString
-	entry = lab.GetEntryPoint(width, labString);
+	entry = lab.GetEntryPoint(width, height, labString);
 
 
-	width++;
 	blackedMap[2 + (0 * width)] = ' ';
 	blackedMap[2 + (1 * width)] = ' ';
 	blackedMap[2 + (2 * width)] = ' ';
@@ -37,7 +36,7 @@ int main() {
 	blackedMap[4 + (3 * width)] = ' ';
 
 
-	lab.PrintLab(blackedMap);
+	lab.PrintLab(width, height, blackedMap);
 
 	system("PAUSE");
 }

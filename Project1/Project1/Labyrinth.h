@@ -13,8 +13,8 @@ public:
 
 	void ReadFile(int& width, int& height, string& labyrinth);
 	void CreateBlackedMap(int& width, int& height, string& blackedMap);
-	int GetEntryPoint(int& width, string& labyrinth);
-	void PrintLab(string& lab);
+	int GetEntryPoint(int& width, int& height, string& labyrinth);
+	void PrintLab(int& width, int& height, string& lab);
 
 	string labString;
 };
