@@ -1,132 +1,140 @@
 #include "labyrinth.h"
 
+using namespace std;
+
 Labyrinth::Labyrinth()
 {
+	m_width = m_height = 0;
+	m_entry = m_exit = 0;
+	m_blackMap = m_labString = "";
 }
 
+Labyrinth::~Labyrinth() {}
 
-Labyrinth::~Labyrinth()
-{
-}
-
-void Labyrinth::ReadFile(int& width, int& height, string& Labyrinth)
+void Labyrinth::ReadFile()
 {
 	string tmp;
 	string path;
 	cout << "Enter path to maze: \n";
+	///TODO static path
+	path = "maze.txt"; 
 
-	/*                               ÄNDERN                        */
-	//cin >> path;
-	ifstream ifs("maze.txt");
-	/*                                                             */
-
-	//read Labyrinth into 1d-string-array
+	ifstream ifs(path.c_str());
 	if (ifs.good()) {
-		//gets width of Labyrinth
 		getline(ifs, tmp, '\n');
-		Labyrinth += tmp;
-		Labyrinth += "\n";
-		width = tmp.size();
-		width++;
-		height++;
+		m_labString += (tmp + '\n');
+		m_height++;
+
+		m_width = tmp.size();
 
 		while (!ifs.eof()) {
 			getline(ifs, tmp, '\n');
-			height++;
-			Labyrinth += tmp;
-			Labyrinth += '\n';
+			if (tmp.size() == m_width)
+			{
+				m_labString += (tmp + '\n');
+				m_height++;
+			}
 		}
+		m_width++;
 	}
+	GetEntryPoint();
+	/*cout << "entry: " << m_entry << endl;
+	cout << "exit: " << m_exit << endl;*/
+	CreateBlackedMap();
 }
 
-void Labyrinth::CreateBlackedMap(int& width, int& height, string& blackedMap)
+void Labyrinth::CreateBlackedMap()
 {
-	for (int i = 0; i < height; i++) {
-		for (int k = 0; k < width - 1; k++) {
-			blackedMap += (char)219u;
-		}
-		blackedMap += "\n";
-	}
-}
-
-int Labyrinth::GetEntryPoint(int& width, int& height, string & labyrinth)
-{
-	int length = width * height;
-
-	int entry = 0;
-	cout << width << height;
-	while (true)
+	m_blackMap = m_labString;
+	for (char& c : m_blackMap)
 	{
-		cout << entry << " ";
-		if (width+1 == entry) return -1;
-		cout << labyrinth[entry];
-		if (labyrinth[entry] == ' ') return entry;
-		system("pause");
-		if ((entry - width < 0) && (entry + 1 != width))
-		{
-			entry++;
-			continue;
-		}
-		else if (!((entry + 1) % width) && (entry + 2 < length))
-		{
-			entry += width;
-			continue;
-		}
-		else if ((entry + width > length) && (entry % width != 1))
-		{
-			entry--;
-			continue;
-		}
-		else if (entry % width == 1)
-		{
-			entry -= width;
-			continue;
-		}
+		if (c != '\n') c = (char)219u;
 	}
-
-	////	searches on the top side
-	//for (int entry = 0; entry < width - 1;) {
-	//	if (labyrinth[entry++] == ' ') {
-	//		return entry;
-	//	}
-	//}
-
-	////	FEHLERHAFT
-	////	searches right side
-	//for (int entry = width-2; entry < length; entry += width) {
-	//	//cout << " blabla " << entry << " " << labyrinth[entry] << endl;
-	//	cout << "width: " << width;
-	//	if (labyrinth[entry] == ' ') {
-	//		return entry;
-	//	}
-	//}
-
-	cout << "No entry found" << endl;
-	return -1;
+	m_blackMap[m_entry] = m_labString[m_entry];
 }
 
-void Labyrinth::PrintLab(int& width, int& height, string & lab)
+void Labyrinth::GetEntryPoint()
 {
-	cout << "\n\n";
-	cout << lab << endl;
+	int length = m_width * m_height;
+	int i = 0;
+	bool searchEntry = true;
 
-	int w = 0, h = 0;
-
-	for (int i = 0; i < lab.size(); i++) {
-		w++;
-		if (lab[i] == '\n') {
-			break;
+	//top Side
+	for (; i < m_width-2; i++) {
+		if (m_labString[i] == ' ')
+		{
+			if (searchEntry)
+			{
+				m_entry = i;
+				searchEntry = false;
+			}
+			else
+			{
+				m_exit = i;
+				return;
+			}
 		}
 	}
 
-	for (int i = 0; i < lab.size(); i++) {
-		if (lab[i] == '\n') {
-			h++;
+	// right Side
+	for (;i < length;i += m_width)
+	{
+		if (m_labString[i] == ' ')
+		{
+			if (searchEntry)
+			{
+				m_entry = i;
+				searchEntry = false;
+			}
+			else
+			{
+				m_exit = i;
+				return;
+			}
+		}
+		if (i + m_width > length) break;
+	}
+
+	// bottom Side
+	for (; (i+1) % m_width;i--) {
+		if (m_labString[i] == ' ')
+		{
+			if (searchEntry)
+			{
+				m_entry = i;
+				searchEntry = false;
+			}
+			else
+			{
+				m_exit = i;
+				return;
+			}
 		}
 	}
 
-	cout << "Width of String (with newline): " << w << endl;
-	cout << "Height of String: " << h << endl;
+	i++;
+	// left Side
+	for (;i > 2*m_width;i -= m_width)
+	{
+		if (m_labString[i] == ' ')
+		{
+			if (searchEntry)
+			{
+				m_entry = i;
+				searchEntry = false;
+			}
+			else
+			{
+				m_exit = i;
+				return;
+			}
+		}
+	}
 
-	cout << "Length of String (length*width): " << lab.size() << "\n\n";
+	if (!(m_entry && m_exit)) cout << endl << "No valid labyrinth! " << endl;
+}
+
+void Labyrinth::PrintLab(bool mapVisible)
+{
+	cout << endl << ( mapVisible ? m_labString : m_blackMap ) << endl;
 }

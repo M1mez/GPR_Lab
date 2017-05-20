@@ -7,15 +7,23 @@ using namespace std;
 
 class Labyrinth
 {
+private:
+	void GetEntryPoint();
+	void CreateBlackedMap();
+	
+
 public:
 	Labyrinth();
 	~Labyrinth();
 
-	void ReadFile(int& width, int& height, string& labyrinth);
-	void CreateBlackedMap(int& width, int& height, string& blackedMap);
-	int GetEntryPoint(int& width, int& height, string& labyrinth);
-	void PrintLab(int& width, int& height, string& lab);
+	void ReadFile();
+	void PrintLab(bool mapVisible);
 
-	string labString;
+	string m_labString;
+	string m_blackMap;
+	int m_entry;
+	int m_exit;
+	int m_width;
+	int m_height;
 };
 
