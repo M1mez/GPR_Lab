@@ -1,34 +1,60 @@
 #pragma once
-
-#include <iostream>
-#include <string>
 #include <vector>
-#include <fstream>
+#include "labyrinth.h"
 
+enum Direction { NORTH, EAST, SOUTH, WEST };
 using namespace std;
 
+
 struct Memory {
-	Memory* right;
-	Memory* straight;
-	Memory* left;
+	Memory* r; // right
+	Memory* s; // straight
+	Memory* l; // left
 };
 
 class Robot {
 public:
-	Robot(string& revealed, string& black);
+	Robot(Labyrinth* lab);
 	virtual ~Robot();
+	void walk();
+	string m_blackMap;
 
 protected:
-	int startingPoint;
-	string labyrinth;
-	string blackMap;
+	void UpdateBlackMap(int pos);
+
+	void step();
+	bool check(int dir);
+
+
+	Labyrinth* m_lab;
+	int m_pos;
+	int m_steps;
+	int head;
+	Memory* mem;
 };
 
-class LeftHandAlg : public Robot {
+class AlgLeft : public Robot {
 public:
-	LeftHandAlg(string& revealed, string& black);
-	virtual ~LeftHandAlg();
-
-private:
-	Memory* robot_Lefty;
+	AlgLeft(Labyrinth* lab);
+	~AlgLeft();
 };
+
+//class AlgTarry : public Robot {
+//public:
+//	AlgTarry();
+//	virtual ~AlgTarry();
+//	int go();
+//};
+
+//class Algthird : public Robot {
+//public:
+//	Algthird();
+//	virtual ~Algthird();
+//	int go();
+//};
+
+
+/*
+bool choice(); solange keine Sackgasse => return choice(), ansonsten return false! wenn am ende, return true!
+
+*/

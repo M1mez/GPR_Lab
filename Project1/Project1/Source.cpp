@@ -1,44 +1,33 @@
 ﻿#include "robot.h"
-#include "labyrinth.h"
-#include <iostream>
+
 using namespace std;
 
-int main() {
-	//	string of original labyrinth
-	string labString = "";
-
-	//	blacked version of labyrinth
-	string blackedMap = "";
-
+int main() 
+{
 	int width, height;
 	width = height = 0;
-	int entry, exit;
 
 	Labyrinth lab;
 
-	//	reads labyrinth from .txt file, saved in labString
-	lab.ReadFile(width, height, labString);
-	lab.PrintLab(width, height, labString);
-
-	cout << labString[31];
-
-	//	creates blacked version of same dimensions as labString, saved in blackedMap 	
-	lab.CreateBlackedMap(width, height, blackedMap);
-	lab.PrintLab(width, height, blackedMap);
-
-	//	gets entryPoint of labString
-	entry = lab.GetEntryPoint(width, height, labString);
+	lab.ReadFile();			 //	ifstream
 
 
-	blackedMap[2 + (0 * width)] = ' ';
-	blackedMap[2 + (1 * width)] = ' ';
-	blackedMap[2 + (2 * width)] = ' ';
-	blackedMap[3 + (2 * width)] = ' ';
-	blackedMap[4 + (2 * width)] = ' ';
-	blackedMap[4 + (3 * width)] = ' ';
 
+	/*blackMap[2 + (0 * lab.m_width)] = ' ';
+	blackMap[2 + (1 * lab.m_width)] = ' ';
+	blackMap[2 + (2 * lab.m_width)] = ' ';
+	blackMap[3 + (2 * lab.m_width)] = ' ';
+	blackMap[4 + (2 * lab.m_width)] = ' ';
+	blackMap[4 + (3 * lab.m_width)] = ' ';*/
 
-	lab.PrintLab(width, height, blackedMap);
+	//lab.PrintLab(blackedMap);
+
+	AlgLeft *test = new AlgLeft(&lab);
+	test->walk();
+
+	lab.PrintLab(1);
+	cout << test->m_blackMap;
+
 
 	system("PAUSE");
 }
