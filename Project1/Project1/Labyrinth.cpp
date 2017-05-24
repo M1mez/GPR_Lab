@@ -49,7 +49,7 @@ void Labyrinth::CreateBlackedMap(int & width, int & height, string& blackedMap)
 	}
 }
 
-int Labyrinth::GetEntryPoint(int& width, int& height, string & labyrinth)
+int Labyrinth::GetEntryPoint(int& width, int& height, string& labyrinth)
 {
 	int length = width * height;
 
@@ -63,10 +63,11 @@ int Labyrinth::GetEntryPoint(int& width, int& height, string & labyrinth)
 	//	FEHLERHAFT
 	//	searches right side
 	for (int entry = width; entry < length; entry += width) {
-		cout << entry-1 << endl;
+		cout << labString[entry - 1];
+		cout << entry - 1 << endl;
 		if (labyrinth[entry - 1] == ' ') {
-			cout << entry-1 << endl;
-			return entry-1;
+			cout << entry - 1 << endl;
+			return entry - 1;
 		}
 	}
 
@@ -74,7 +75,7 @@ int Labyrinth::GetEntryPoint(int& width, int& height, string & labyrinth)
 	return -1;
 }
 
-void Labyrinth::PrintLab(int& width, int& height, string & lab)
+void Labyrinth::PrintLab(int& width, int& height, string& lab)
 {
 	cout << "\n\n";
 	cout << lab << endl;

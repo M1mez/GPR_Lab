@@ -20,6 +20,8 @@ int main() {
 	lab.ReadFile(width, height, labString);
 	lab.PrintLab(width, height, labString);
 
+	cout << labString[31];
+
 	//	creates blacked version of same dimensions as labString, saved in blackedMap 	
 	lab.CreateBlackedMap(width, height, blackedMap);
 	lab.PrintLab(width, height, blackedMap);
