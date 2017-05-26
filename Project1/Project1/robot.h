@@ -16,11 +16,11 @@ public:
 #pragma region we will keep these >public<
 	Robot(Labyrinth* lab);
 	virtual ~Robot();
+	virtual bool walk() = 0;
 
 
 #pragma endregion
 
-	void walk();
 	string m_blackMap;
 
 protected:
@@ -46,6 +46,9 @@ class AlgLeft : public Robot {
 public:
 	AlgLeft(Labyrinth* lab);
 	~AlgLeft();
+	bool walk();
+
+
 };
 
 //class AlgTarry : public Robot {

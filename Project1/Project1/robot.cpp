@@ -10,33 +10,7 @@ Robot::Robot(Labyrinth* lab) : m_lab(lab)
 }
 Robot::~Robot(){}
 
-void Robot::walk()
-{
-	int left, straight, right;
-	while (true)
-	{
-		//cout << m_pos << " ";
-		m_pos = step(m_pos, head);
-		UpdateBlackMap(m_pos);
-		left = (head + 3) % 4;
-		straight = head;
-		right = (head + 1) % 4;
-		if (m_pos == m_lab->m_exit) break;
-		if (check(m_pos, left)) {	// check left
-			head = left;
-			continue;
-		}
-		if (check(m_pos, straight)) {			// check straight
-			head = straight;
-			continue;
-		}
-		if (check(m_pos, right)) {	// check right
-			head = right;
-			continue;
-		}
-		head = (head + 2) % 4;
-	}
-}
+
 bool Robot::check(int pos, int dir)
 {
 	switch (dir)
@@ -79,11 +53,15 @@ void Robot::UpdateBlackMap(int pos)
 	int& width = m_lab->m_width;
 	int& height = m_lab->m_height;
 
-	if (!((pos - width) < 0)) m_blackMap[pos - width] = noFog[pos - width];               // norden lab?
-	if ((pos+2)%width) m_blackMap[pos + 1] = noFog[pos + 1];							  // osten lab?
-	if (!((pos + width)>m_blackMap.size())) m_blackMap[pos + width] = noFog[pos + width]; // sueden lab?
-	if (pos % width) m_blackMap[pos - 1] = noFog[pos - 1];
-	// westen lab?
+	char* norBlPos = (!((pos - width) < 0)) ? &m_blackMap[pos - width] : nullptr;
+	char* easBlPos = ((pos + 2) % width) ? &m_blackMap[pos + 1] : nullptr;
+	char* souBlPos = !((pos + width)>m_blackMap.size()) ? &m_blackMap[pos + width] : nullptr;
+	char* wesBlPos = (pos % width) ? &m_blackMap[pos - 1] : nullptr;
+
+	if (norBlPos) if (*norBlPos != 'x') *norBlPos = noFog[pos - width];					// norden lab?
+	if (easBlPos) if (*easBlPos != 'x') *easBlPos = noFog[pos + 1];						// osten lab?
+	if (souBlPos) if (*souBlPos != 'x') *souBlPos = noFog[pos + width];					// sueden lab?
+	if (wesBlPos) if (*wesBlPos != 'x') *wesBlPos = noFog[pos - 1];						// westen lab?
 }
 
 
@@ -92,3 +70,31 @@ void Robot::UpdateBlackMap(int pos)
 AlgLeft::AlgLeft(Labyrinth* lab) : Robot(lab){}
 
 AlgLeft::~AlgLeft(){}
+
+bool AlgLeft::walk()
+{
+	int left, straight, right;
+	while (true)
+	{
+		//cout << m_pos << " ";
+		m_pos = step(m_pos, head);
+		UpdateBlackMap(m_pos);
+		left = (head + 3) % 4;
+		straight = head;
+		right = (head + 1) % 4;
+		if (m_pos == m_lab->m_exit) return true;
+		if (check(m_pos, left)) {	// check left
+			head = left;
+			continue;
+		}
+		if (check(m_pos, straight)) {			// check straight
+			head = straight;
+			continue;
+		}
+		if (check(m_pos, right)) {	// check right
+			head = right;
+			continue;
+		}
+		head = (head + 2) % 4;
+	}
+}
