@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 
+enum Direction { NORTH, EAST, SOUTH, WEST };
 using namespace std;
 
 class Labyrinth
@@ -25,5 +26,6 @@ public:
 	int m_exit;
 	int m_width;
 	int m_height;
+	int initHead;
 };
 

@@ -2,7 +2,6 @@
 #include <vector>
 #include "labyrinth.h"
 
-enum Direction { NORTH, EAST, SOUTH, WEST };
 using namespace std;
 
 
@@ -14,19 +13,29 @@ struct Memory {
 
 class Robot {
 public:
+#pragma region we will keep these >public<
 	Robot(Labyrinth* lab);
 	virtual ~Robot();
+
+
+#pragma endregion
+
 	void walk();
 	string m_blackMap;
 
 protected:
-	void UpdateBlackMap(int pos);
-
-	void step();
-	bool check(int dir);
-
-
+#pragma region we will keep these >protected<
 	Labyrinth* m_lab;
+	void UpdateBlackMap(int pos);
+	bool check(int pos, int dir);
+	int step(int pos, int dir);
+
+
+
+#pragma endregion
+
+
+
 	int m_pos;
 	int m_steps;
 	int head;
