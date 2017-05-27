@@ -7,6 +7,12 @@ Labyrinth::Labyrinth()
 	m_width = m_height = 0;
 	m_entry = m_exit = 0;
 	m_blackMap = m_labString = "";
+	ReadFile();
+
+	if (m_entry - m_width < 0) initHead = SOUTH;
+	else if (!((m_entry + 2) % m_width)) initHead = WEST;
+	else if (m_entry + m_width > m_labString.size()) initHead = NORTH;
+	else if (!(m_entry % m_width)) initHead = EAST;
 }
 
 Labyrinth::~Labyrinth() {}
@@ -17,7 +23,7 @@ void Labyrinth::ReadFile()
 	string path;
 	cout << "Enter path to maze: \n";
 	///TODO static path
-	path = "maze.txt"; 
+	path = "3.txt"; 
 
 	ifstream ifs(path.c_str());
 	if (ifs.good()) {
@@ -130,4 +136,9 @@ void Labyrinth::PrintLab(int& width, int& height, string & lab)
 void Labyrinth::PrintLab(bool mapVisible)
 {
 	cout << endl << ( mapVisible ? m_labString : m_blackMap ) << endl;
+}
+
+int Labyrinth::TStart(Robot * r)
+{
+	return r->walk();
 }
