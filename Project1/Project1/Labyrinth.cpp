@@ -144,3 +144,8 @@ void Labyrinth::PrintLab(bool mapVisible)
 {
 	cout << endl << ( mapVisible ? m_labString : m_blackMap ) << endl;
 }
+
+int Labyrinth::TStart(Robot * r)
+{
+	return r->walk();
+}

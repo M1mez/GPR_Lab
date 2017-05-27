@@ -2,8 +2,10 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "robot.h"
 
 enum Direction { NORTH, EAST, SOUTH, WEST };
+class Robot;
 using namespace std;
 
 class Labyrinth
@@ -19,6 +21,7 @@ public:
 
 	void ReadFile();
 	void PrintLab(bool mapVisible);
+	int TStart(Robot* r);
 
 	string m_labString;
 	string m_blackMap;

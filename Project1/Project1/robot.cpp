@@ -10,38 +10,97 @@ Robot::Robot(Labyrinth* lab) : m_lab(lab)
 }
 Robot::~Robot(){}
 
+int Robot::walkToCross(int pos, int dir)
+{
+	
+	int left = (dir + 3) % 4;
+	int straight = dir;
+	int right = (dir + 1) % 4;
+
+
+	int ways = 0;
+	if (check(pos, left))
+	{
+		dir = left;
+		ways++;
+	}
+	if (check(pos, straight))
+	{
+		dir = straight;
+		ways++;
+	}
+	if (check(pos, right))
+	{
+		dir = right;
+		ways++;
+	}
+	m_steps++;
+	UpdateBlackMap(pos);
+
+
+	if (ways == 1)
+	{
+		step(pos, dir);
+		return walkToCross(pos, dir);
+	}
+	else return pos;
+}
+
+void Robot::printBlack()
+{
+	cout << endl << m_blackMap << endl;
+}
+
 
 bool Robot::check(int pos, int dir)
 {
 	switch (dir)
 	{
 	case NORTH: {
-		if (m_lab->m_labString[pos - m_lab->m_width] == ' ') return true; 
+		char c = m_lab->m_labString[pos - m_lab->m_width];
+		if (c == ' ') return true; 
 		break;
 	}
-	case EAST: { 
-		if (m_lab->m_labString[pos + 1] == ' ') return true;
+	case EAST: {
+		char c = m_lab->m_labString[pos + 1];
+		if (c == ' ') return true;
 		break;
 	}
 	case SOUTH: {
-		if (m_lab->m_labString[pos + m_lab->m_width] == ' ') return true;
+		char c = m_lab->m_labString[pos + m_lab->m_width];
+		if (c == ' ') return true;
 		break;
 }
 	case WEST: {
-		if (m_lab->m_labString[pos - 1] == ' ') return true;
+		char c = m_lab->m_labString[pos - 1];
+		if (c == ' ') return true;
 		break;
 	}
 	}
 	return false;
 }
+
 int Robot::step(int pos, int dir)
 {
+	//bool c = onlyCheck(pos, dir);
+	
 	switch (dir)
 	{
-		case NORTH: return pos - m_lab->m_width;
-		case EAST:  return pos + 1;
-		case SOUTH: return pos + m_lab->m_width;
-		case WEST:  return pos - 1;
+	case NORTH: {
+		return pos - m_lab->m_width;
+
+	}
+	case EAST: {
+		 return  pos + 1;
+}
+	case SOUTH: {
+		 return pos + m_lab->m_width;
+
+	}
+	case WEST: {
+		 return pos - 1;
+
+	}
 	}
 	return -1;
 }
@@ -65,36 +124,3 @@ void Robot::UpdateBlackMap(int pos)
 }
 
 
-// ALGORITHM 1: Left Hand
-
-AlgLeft::AlgLeft(Labyrinth* lab) : Robot(lab){}
-
-AlgLeft::~AlgLeft(){}
-
-bool AlgLeft::walk()
-{
-	int left, straight, right;
-	while (true)
-	{
-		//cout << m_pos << " ";
-		m_pos = step(m_pos, head);
-		UpdateBlackMap(m_pos);
-		left = (head + 3) % 4;
-		straight = head;
-		right = (head + 1) % 4;
-		if (m_pos == m_lab->m_exit) return true;
-		if (check(m_pos, left)) {	// check left
-			head = left;
-			continue;
-		}
-		if (check(m_pos, straight)) {			// check straight
-			head = straight;
-			continue;
-		}
-		if (check(m_pos, right)) {	// check right
-			head = right;
-			continue;
-		}
-		head = (head + 2) % 4;
-	}
-}

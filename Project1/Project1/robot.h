@@ -3,12 +3,13 @@
 #include "labyrinth.h"
 
 using namespace std;
-
+class Labyrinth;
 
 struct Memory {
 	Memory* r; // right
 	Memory* s; // straight
 	Memory* l; // left
+	int pos;
 };
 
 class Robot {
@@ -16,16 +17,22 @@ public:
 #pragma region we will keep these >public<
 	Robot(Labyrinth* lab);
 	virtual ~Robot();
-	virtual bool walk() = 0;
+	virtual int walk() = 0;
+	int walkToCross(int pos, int dir);
+	void printBlack();
 
 
 #pragma endregion
 
-	string m_blackMap;
 
 protected:
 #pragma region we will keep these >protected<
 	Labyrinth* m_lab;
+	string m_blackMap;
+	int m_pos;
+	int head;
+	int m_steps;
+
 	void UpdateBlackMap(int pos);
 	bool check(int pos, int dir);
 	int step(int pos, int dir);
@@ -36,37 +43,6 @@ protected:
 
 
 
-	int m_pos;
-	int m_steps;
-	int head;
-	Memory* mem;
-};
-
-class AlgLeft : public Robot {
-public:
-	AlgLeft(Labyrinth* lab);
-	~AlgLeft();
-	bool walk();
-
 
 };
 
-//class AlgTarry : public Robot {
-//public:
-//	AlgTarry();
-//	virtual ~AlgTarry();
-//	int go();
-//};
-
-//class Algthird : public Robot {
-//public:
-//	Algthird();
-//	virtual ~Algthird();
-//	int go();
-//};
-
-
-/*
-bool choice(); solange keine Sackgasse => return choice(), ansonsten return false! wenn am ende, return true!
-
-*/
