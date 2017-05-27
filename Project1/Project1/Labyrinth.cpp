@@ -59,7 +59,7 @@ void Labyrinth::CreateBlackedMap()
 	m_blackMap[m_entry] = m_labString[m_entry];
 }
 
-int Labyrinth::GetEntryPoint(int& width, int& height, string & labyrinth)
+void Labyrinth::GetEntryPoint()
 {
 	int length = m_width * m_height;
 	int i = 0;
@@ -82,13 +82,21 @@ int Labyrinth::GetEntryPoint(int& width, int& height, string & labyrinth)
 		}
 	}
 
-	//	FEHLERHAFT
-	//	searches right side
-	for (int entry = width; entry < length; entry += width) {
-		cout << entry-1 << endl;
-		if (labyrinth[entry - 1] == ' ') {
-			cout << entry-1 << endl;
-			return entry-1;
+	// right Side
+	for (;i < length;i += m_width)
+	{
+		if (m_labString[i] == ' ')
+		{
+			if (searchEntry)
+			{
+				m_entry = i;
+				searchEntry = false;
+			}
+			else
+			{
+				m_exit = i;
+				return;
+			}
 		}
 		if (i + m_width > length) break;
 	}
@@ -110,23 +118,22 @@ int Labyrinth::GetEntryPoint(int& width, int& height, string & labyrinth)
 		}
 	}
 
-void Labyrinth::PrintLab(int& width, int& height, string & lab)
-{
-	cout << "\n\n";
-	cout << lab << endl;
-
-	int w = 0, h = 0;
-
-	for (int i = 0; i < lab.size(); i++) {
-		w++;
-		if (lab[i] == '\n') {
-			break;
-		}
-	}
-
-	for (int i = 0; i < lab.size(); i++) {
-		if (lab[i] == '\n') {
-			h++;
+	i++;
+	// left Side
+	for (;i > 2*m_width;i -= m_width)
+	{
+		if (m_labString[i] == ' ')
+		{
+			if (searchEntry)
+			{
+				m_entry = i;
+				searchEntry = false;
+			}
+			else
+			{
+				m_exit = i;
+				return;
+			}
 		}
 	}
 
