@@ -31,7 +31,7 @@ void Labyrinth::ReadFile()
 		m_labString += (tmp + '\n');
 		m_height++;
 
-		m_width = tmp.size();
+		m_width = (int)tmp.size();
 
 		while (!ifs.eof()) {
 			getline(ifs, tmp, '\n');

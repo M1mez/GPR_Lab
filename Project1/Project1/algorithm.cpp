@@ -9,16 +9,13 @@ AlgLeft::AlgLeft(Labyrinth* lab) : Robot(lab) {}
 
 int AlgLeft::walk()
 {
-	int left, straight, right;
 	while (true)
 	{
-		//cout << m_pos << " ";
-		m_pos = step(m_pos, head);
-		m_steps++;
+		step(head);
 		UpdateBlackMap(m_pos);
-		left = (head + 3) % 4;
-		straight = head;
-		right = (head + 1) % 4;
+		align();
+
+		
 		if (m_pos == m_lab->m_exit) return true;
 
 		if (check(m_pos, left)) {	// check left
@@ -41,8 +38,64 @@ int AlgLeft::walk()
 
 AlgRec::AlgRec(Labyrinth* lab) : Robot(lab) {}
 
-bool AlgRec::choice(int pos, int dir)
+bool AlgRec::choice()
 {
+	align();
+
+	Memory* newCross = new Memory;
+	newCross->last = mem;
+	mem = newCross;
+	bool leftC = false, straightC = false, rightC = false;
+
+	bool success;
+	walkToCross();
+	if (m_pos == m_lab->m_exit) return true;
+	int currPos = m_pos;
+	int currHead = head;
+
+	if (check(m_pos, left))
+	{
+		step(left);
+		leftC = choice();
+	}
+	if (m_pos == m_lab->m_exit) return true;
+	m_pos = currPos;
+	head = currHead;
+	align();
+	if (check(m_pos, straight))
+	{
+		step(straight);
+		straightC = choice();
+	}
+	if (m_pos == m_lab->m_exit) return true;
+	m_pos = currPos;
+	head = currHead;
+	align();
+	if (check(m_pos, right))
+	{
+		step(right);
+		rightC = choice();
+	}
+	if (m_pos == m_lab->m_exit) return true;
+	if (leftC || straightC || rightC) return true;
+	
+	return false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*
 	int left = (head + 3) % 4;
 	int straight = head;
 	int right = (head + 1) % 4;
@@ -52,7 +105,11 @@ bool AlgRec::choice(int pos, int dir)
 	bool rightC = check(pos, right);
 
 	int tmpPos = pos;
-										// pos == 29
+
+	*/
+
+
+	/*									// pos == 29
 	if (leftC)
 	{
 		tmpPos = step(tmpPos, left);
@@ -85,11 +142,12 @@ bool AlgRec::choice(int pos, int dir)
 
 	if (leftC || straightC || rightC) return true;
 	else return false;
+	*/
 }
 
 int AlgRec::walk()
 {
 
-	if (choice(m_pos, head))	return m_steps;
+	if (choice())	return m_steps;
 	else						return 0;
 }

@@ -9,14 +9,20 @@ int main()
 
 	Labyrinth lab;
 
-	//AlgLeft *test = new AlgLeft(&lab);
-	AlgRec *test = new AlgRec(&lab);
+	AlgLeft *test1 = new AlgLeft(&lab);
+	AlgRec *test2 = new AlgRec(&lab);
 
 
-	test->walk();
+
+	test1->walk();
+	test2->walk();
 
 	lab.PrintLab(1);
-	test->printBlack();
+	test1->printBlack();
+	cout << test1->m_steps;
+	test2->printBlack();
+	cout << test2->m_steps;
+
 
 
 	system("PAUSE");

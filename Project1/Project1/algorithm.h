@@ -13,9 +13,9 @@ public:
 class AlgRec : public Robot {
 public:
 	AlgRec(Labyrinth* lab);
-	bool choice(int pos, int dir);
-	Memory* mem;
+	bool choice();
 	int walk();
+
 };
 
 

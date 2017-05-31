@@ -7,43 +7,44 @@ Robot::Robot(Labyrinth* lab) : m_lab(lab)
 	m_pos = lab->m_entry;
 	m_steps = 0;
 	head = lab->initHead;
+	mem = new Memory;
+	mem->pos = m_pos;
 }
 Robot::~Robot(){}
 
-int Robot::walkToCross(int pos, int dir)
+void Robot::walkToCross()
 {
-	
-	int left = (dir + 3) % 4;
-	int straight = dir;
-	int right = (dir + 1) % 4;
-
-
 	int ways = 0;
-	if (check(pos, left))
-	{
-		dir = left;
-		ways++;
-	}
-	if (check(pos, straight))
-	{
-		dir = straight;
-		ways++;
-	}
-	if (check(pos, right))
-	{
-		dir = right;
-		ways++;
-	}
-	m_steps++;
-	UpdateBlackMap(pos);
+	do {
+		if (m_pos == m_lab->m_exit) return;
+		align();
+		int dir = head;
+
+		int ways = 0;
+		if (check(m_pos, left))
+		{
+			dir = left;
+			ways++;
+		}
+		if (check(m_pos, straight))
+		{
+			dir = straight;
+			ways++;
+		}
+		if (check(m_pos, right))
+		{
+			dir = right;
+			ways++;
+		}
 
 
-	if (ways == 1)
-	{
-		step(pos, dir);
-		return walkToCross(pos, dir);
-	}
-	else return pos;
+		if (ways == 1)
+		{
+			step(dir);
+			UpdateBlackMap(m_pos);
+			walkToCross();
+		}
+	} while (ways == 1);
 }
 
 void Robot::printBlack()
@@ -80,29 +81,38 @@ bool Robot::check(int pos, int dir)
 	return false;
 }
 
-int Robot::step(int pos, int dir)
+void Robot::step(int dir)
 {
-	//bool c = onlyCheck(pos, dir);
-	
+	head = dir;
 	switch (dir)
 	{
 	case NORTH: {
-		return pos - m_lab->m_width;
-
+		m_pos = m_pos - m_lab->m_width;
+		break;
 	}
 	case EAST: {
-		 return  pos + 1;
+		m_pos = m_pos + 1;
+		break;
 }
 	case SOUTH: {
-		 return pos + m_lab->m_width;
+		m_pos = m_pos + m_lab->m_width;
+		break;
 
 	}
 	case WEST: {
-		 return pos - 1;
+		m_pos = m_pos - 1;
+		break;
+	}
+	}
+	m_steps++;
+	return;
+}
 
-	}
-	}
-	return -1;
+void Robot::align()
+{
+	left = (head + 3) % 4;
+	straight = head;
+	right = (head + 1) % 4;
 }
 
 
